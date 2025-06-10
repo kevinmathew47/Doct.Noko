@@ -1,175 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doct.Noko - AI Doctor Pitch Deck</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0F172A, #1E293B 50%, #334155);
-            color: #F8FAFC;
-            overflow-x: hidden;
-            height: 100vh;
-        }
-        .presentation-container {
-            width: 100%; height: 100%; position: relative; overflow: hidden;
-        }
-        .slide {
-            display: none;
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            padding: 80px 60px;
-            background: rgba(15,23,42,0.95);
-            backdrop-filter: blur(20px);
-            opacity: 0;
-            transition: opacity .5s ease;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            text-align: center;
-        }
-        .slide.active { display: flex; opacity: 1; position: relative; }
-        .slide h1 {
-            font-size: 4rem; font-weight: 800; margin-bottom: 16px;
-            background: linear-gradient(135deg, #3B82F6, #1D4ED8, #1E40AF);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .slide .subtitle {
-            font-size: 1.25rem; color: #94A3B8; margin-bottom: 40px;
-        }
-        .slide h2 { font-size: 3rem; font-weight: 700; margin-bottom: 24px; color: #E2E8F0; }
-        .slide p { font-size: 1.125rem; color: #94A3B8; margin-bottom: 12px; max-width: 800px; }
-        .slide ul { list-style: none; }
-        .slide ul li::before { content: "•"; color: #3B82F6; margin-right: 8px; }
-        .slide ul li { margin-bottom: 12px; }
-        .comparison-table { border-collapse: collapse; margin-top: 16px; }
-        .comparison-table th, .comparison-table td {
-            border: 1px solid rgba(59,130,246,0.3);
-            padding: 12px 16px;
-            color: #E2E8F0;
-        }
-        .comparison-table th { background: rgba(59,130,246,0.1); }
-        .comparison-table td:nth-child(2) { color: #3B82F6; font-weight: 600; }
-        .navigation {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 8px;
-        }
-        .nav-btn {
-            padding: 8px 12px; background: rgba(59,130,246,0.1);
-            border: 1px solid rgba(59,130,246,0.3);
-            border-radius: 20px; color: #E2E8F0; cursor: pointer;
-            transition: background .3s;
-        }
-        .nav-btn.active, .nav-btn:hover { background: rgba(59,130,246,0.2); }
-        .slide-counter {
-            position: absolute; top: 20px; right: 20px;
-            background: rgba(59,130,246,0.1);
-            padding: 8px 12px; border-radius: 20px;
-            color: #CBD5E1; font-weight: 600;
-        }
-        @media (max-width: 768px) {
-            .slide { padding: 40px 20px; }
-            .slide h1 { font-size: 2.5rem; }
-            .slide h2 { font-size: 2rem; }
-            .slide p, .slide .subtitle { font-size: 1rem; }
-            .nav-btn { padding: 6px 10px; font-size: 0.9rem; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doct.Noko - AI Doctor Pitch Deck</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0F172A;
+      color: #F8FAFC;
+      overflow-x: hidden;
+      padding: 40px;
+    }
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      overflow: hidden;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .card {
+      min-width: 100%;
+      background: #1E293B;
+      border-radius: 16px;
+      padding: 40px;
+      margin: 0 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      flex-shrink: 0;
+    }
+    .card h1,
+    .card h2 { text-align: center; }
+    .card h1 {
+      font-size: 3rem;
+      background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      font-size: 2.25rem;
+      color: #E2E8F0;
+      margin-bottom: 24px;
+    }
+    .card p {
+      font-size: 1rem;
+      color: #CBD5E1;
+      margin-bottom: 12px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cards-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .metric {
+      background: #334155;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+    .metric .number {
+      font-size: 2rem;
+      color: #3B82F6;
+      margin-bottom: 8px;
+    }
+    .metric .label {
+      color: #CBD5E1;
+    }
+    .nav {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+    }
+    .nav-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #CBD5E1;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .nav-btn.active { background: #3B82F6; }
+    @media (max-width: 768px) {
+      .card { padding: 24px; margin: 0 10px; }
+      .card h1 { font-size: 2.25rem; }
+      .card h2 { font-size: 1.75rem; }
+      .metric { padding: 16px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="presentation-container">
-        <!-- Slide 1: Title -->
-        <div class="slide active">
-            <h1>Doct.Noko</h1>
-            <div class="subtitle">Revolutionary AI-Powered Healthcare Assistant</div>
-            <p>Transforming Healthcare through Artificial Intelligence</p>
+  <div class="carousel">
+    <div class="slides">
+      <div class="card">
+        <h1>Doct.Noko</h1>
+        <h2>AI Healthcare Assistant</h2>
+        <p>Transforming healthcare with instant, accurate AI-driven medical consultations available 24/7.</p>
+      </div>
+      <div class="card">
+        <h2>The Problem</h2>
+        <div class="cards-row">
+          <div class="metric"><div class="number">73%</div><div class="label">Wait 2+ weeks</div></div>
+          <div class="metric"><div class="number">$4.1T</div><div class="label">Annual Spending</div></div>
+          <div class="metric"><div class="number">250K</div><div class="label">Medical Errors</div></div>
+          <div class="metric"><div class="number">124K</div><div class="label">Shortage by 2034</div></div>
         </div>
-        <!-- Slide 2: Problem -->
-        <div class="slide">
-            <h2>The Healthcare Crisis</h2>
-            <p>73% of patients wait 2+ weeks for specialists</p>
-            <p>$4.1T annual US healthcare spending</p>
-            <p>250K deaths from medical errors yearly</p>
-            <p>124K physician shortage by 2034</p>
+      </div>
+      <div class="card">
+        <h2>Solution</h2>
+        <div class="cards-row">
+          <div class="metric"><div class="number">AI</div><div class="label">Advanced Diagnostics</div></div>
+          <div class="metric"><div class="number">60s</div><div class="label">Instant Consult</div></div>
+          <div class="metric"><div class="number">95%</div><div class="label">Accuracy</div></div>
+          <div class="metric"><div class="number">80%</div><div class="label">Cost Reduction</div></div>
         </div>
-        <!-- Slide 3: Solution -->
-        <div class="slide">
-            <h2>Our Solution: Doct.Noko</h2>
-            <ul>
-                <li>Advanced AI Diagnostics</li>
-                <li>Instant Consultations in under 60 seconds</li>
-                <li>95% Clinical Accuracy Rate</li>
-                <li>80% Cost Reduction for patients</li>
-            </ul>
-        </div>
-        <!-- Slide 4: Market Opportunity -->
-        <div class="slide">
-            <h2>Market Opportunity</h2>
-            <p>$45B global AI healthcare market (2024)</p>
-            <p>$148B projected by 2030</p>
-            <p>37% CAGR</p>
-            <p>Segments: Primary Care, Telemedicine, Emergency Triage, Specialist Referrals</p>
-        </div>
-        <!-- Slide 5: Product Demo -->
-        <div class="slide">
-            <h2>Product Demo</h2>
-            <p><strong>1.</strong> Symptom Input: NLP understands complex descriptions</p>
-            <p><strong>2.</strong> AI Analysis: Comprehensive medical knowledge</p>
-            <p><strong>3.</strong> Diagnostic Report: Personalized treatment plan</p>
-            <p><strong>4.</strong> Care Coordination: Specialist referrals and follow-up</p>
-        </div>
-        <!-- Slide 6: Business Model -->
-        <div class="slide">
-            <h2>Business Model</h2>
-            <p>Per consultation fee: $19</p>
-            <p>Enterprise license: $50K/month</p>
-            <p>Platform transaction fee: 15%</p>
-            <p>5-year ARR projections: $2.5M ➔ $250M</p>
-        </div>
-        <!-- Slide 7: Traction -->
-        <div class="slide">
-            <h2>Traction</h2>
-            <p>50K beta users in 6 months</p>
-            <p>4.8/5 average user satisfaction</p>
-            <p>85% monthly retention rate</p>
-            <p>Partnership: Mayo Clinic; $2M pre-orders; FDA breakthrough device</p>
-        </div>
-        <!-- Slide 8: Competition -->
-        <div class="slide">
-            <h2>Competitive Analysis</h2>
-            <table class="comparison-table">
-                <tr><th>Capability</th><th>Doct.Noko</th><th>Babylon</th><th>Ada</th><th>K Health</th></tr>
-                <tr><td>AI Accuracy</td><td>95%</td><td>78%</td><td>82%</td><td>71%</td></tr>
-                <tr><td>Response Time</td><td>&lt;1 min</td><td>15 min</td><td>5 min</td><td>10 min</td></tr>
-                <tr><td>24/7 Availability</td><td>✓</td><td>✓</td><td>✓</td><td>Limited</td></tr>
-            </table>
-        </div>
-        <!-- Navigation -->
-        <div class="navigation">
-            <button class="nav-btn active">1</button>
-            <button class="nav-btn">2</button>
-            <button class="nav-btn">3</button>
-            <button class="nav-btn">4</button>
-            <button class="nav-btn">5</button>
-            <button class="nav-btn">6</button>
-            <button class="nav-btn">7</button>
-            <button class="nav-btn">8</button>
-        </div>
-        <div class="slide-counter"><span id="current-slide">1</span> / 8</div>
+      </div>
+      <div class="card">
+        <h2>Market</h2>
+        <p>$45B global AI healthcare market (2024)</p>
+        <p>$148B projected by 2030 at 37% CAGR</p>
+      </div>
     </div>
-    <script>
-        const slides = document.querySelectorAll('.slide');
-        const buttons = document.querySelectorAll('.nav-btn');
-        const display = document.getElementById('current-slide');
-        buttons.forEach((btn, i) => btn.addEventListener('click', () => {
-            slides.forEach(s => s.classList.remove('active'));
-            buttons.forEach(b => b.classList.remove('active'));
-            slides[i].classList.add('active');
-            btn.classList.add('active');
-            display.textContent = i + 1;
-        }));
-    </script>
+    <div class="nav"></div>
+  </div>
+  <script>
+    const slides = document.querySelector('.slides');
+    const cards = document.querySelectorAll('.slides .card');
+    const nav = document.querySelector('.nav');
+    let index = 0;
+    cards.forEach((_, i) => {
+      const btn = document.createElement('div');
+      btn.classList.add('nav-btn');
+      if (i === 0) btn.classList.add('active');
+      btn.addEventListener('click', () => goToSlide(i));
+      nav.append(btn);
+    });
+    function goToSlide(i) {
+      const width = cards[0].offsetWidth + 40;
+      slides.style.transform = `translateX(-${i * width}px)`;
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.nav-btn')[i].classList.add('active');
+    }
+    window.addEventListener('resize', () => goToSlide(index));
+    function goToSlide(i) { index = i; const width = cards[0].offsetWidth + 40; slides.style.transform = `translateX(-${i * width}px)`; document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.querySelectorAll('.nav-btn')[i].classList.add('active'); }
+  </script>
 </body>
 </html>
