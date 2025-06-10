@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doct.Noko - AI Doctor Pitch Deck</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
+            color: #F8FAFC;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        .presentation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            position: relative;
+        }
+        .slide h1, .slide h2 {
+            text-align: center;
+            width: 100%;
+        }
+        .slide h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+        .slide h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #E2E8F0;
+            letter-spacing: -0.01em;
+        }
+        .slide h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #CBD5E1;
+            text-align: center;
+        }
+        .slide p, .slide li {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            color: #94A3B8;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(30, 64, 175, 0.1) 100%);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            text-align: center;
+            margin: 24px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+        .metric-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #3B82F6;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+        .metric-label {
+            font-size: 1rem;
+            color: #CBD5E1;
+            font-weight: 500;
+        }
+        .feature-grid, .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin: 40px 0;
+            width: 100%;
+            align-items: center;
+        }
+        .team-grid { grid-template-columns: repeat(3, 1fr); }
+        .feature-item, .team-member {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(30, 64, 175, 0.08) 100%);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.05);
+            text-align: center;
+        }
+        .feature-item:hover, .team-member:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(30, 64, 175, 0.12) 100%);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 12px 16px -4px rgba(59, 130, 246, 0.1);
+        }
+        .chart-container {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(30, 64, 175, 0.05) 100%);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            margin: 24px 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            height: 220px;
+            gap: 24px;
+            width: 100%;
+        }
+        .bar {
+            flex: 1;
+            background: linear-gradient(to top, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
+        .bar:hover {
+            transform: scaleY(1.05);
+            box-shadow: 0 8px 12px -2px rgba(59, 130, 246, 0.4);
+        }
+        .bar-label {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.875rem;
+            color: #CBD5E1;
+            font-weight: 500;
+            text-align: center;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            z-index: 1000;
+        }
+        .nav-btn {
+            padding: 16px 32px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50px;
+            color: #E2E8F0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px -2px rgba(59, 130, 246, 0.2);
+        }
+        .slide-counter {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            color: #CBD5E1;
+        }
+        .subtitle { margin-bottom: 60px; }
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .slide { padding: 60px 40px; }
+            .slide h1 { font-size: 3rem; }
+            .slide h2 { font-size: 2.5rem; }
+            .two-column { grid-template-columns: 1fr; gap: 40px; align-items: center; }
+            .feature-grid, .team-grid { grid-template-columns: 1fr; gap: 24px; }
+            .timeline { flex-direction: column; gap: 16px; }
+        }
+        @media (max-width: 768px) {
+            .slide { padding: 40px 24px; }
+            .slide h1 { font-size: 2.5rem; }
+            .slide h2 { font-size: 2rem; }
+            .slide p { font-size: 1rem; }
+            .nav-btn { padding: 12px 24px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slides as before... -->
+        <!-- Navigation and JS initialization as before -->
+    </div>
+    <script>
+        // Basic slide navigation logic
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentIndex = 0;
+        document.getElementById('total-slides').textContent = totalSlides;
+        document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+            btn.addEventListener('click', () => showSlide(idx));
+        });
+        function showSlide(idx) {
+            slides[currentIndex].classList.remove('active');
+            slides[idx].classList.add('active');
+            currentIndex = idx;
+            document.getElementById('current-slide').textContent = idx + 1;
+        }
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
