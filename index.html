@@ -6,259 +6,170 @@
     <title>Doct.Noko - AI Doctor Pitch Deck</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0F172A, #1E293B 50%, #334155);
             color: #F8FAFC;
             overflow-x: hidden;
-            line-height: 1.6;
+            height: 100vh;
         }
         .presentation-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            overflow: hidden;
+            width: 100%; height: 100%; position: relative; overflow: hidden;
         }
         .slide {
             display: none;
-            width: 100%;
-            height: 100%;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
             padding: 80px 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(15,23,42,0.95);
             backdrop-filter: blur(20px);
-            transition: opacity 0.5s ease;
             opacity: 0;
-        }
-        .slide.active {
-            display: flex;
-            opacity: 1;
-            position: relative;
-        }
-        .slide h1, .slide h2 {
+            transition: opacity .5s ease;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
             text-align: center;
-            width: 100%;
         }
+        .slide.active { display: flex; opacity: 1; position: relative; }
         .slide h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
+            font-size: 4rem; font-weight: 800; margin-bottom: 16px;
+            background: linear-gradient(135deg, #3B82F6, #1D4ED8, #1E40AF);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .slide h2 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 40px;
+        .slide .subtitle {
+            font-size: 1.25rem; color: #94A3B8; margin-bottom: 40px;
+        }
+        .slide h2 { font-size: 3rem; font-weight: 700; margin-bottom: 24px; color: #E2E8F0; }
+        .slide p { font-size: 1.125rem; color: #94A3B8; margin-bottom: 12px; max-width: 800px; }
+        .slide ul { list-style: none; }
+        .slide ul li::before { content: "•"; color: #3B82F6; margin-right: 8px; }
+        .slide ul li { margin-bottom: 12px; }
+        .comparison-table { border-collapse: collapse; margin-top: 16px; }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid rgba(59,130,246,0.3);
+            padding: 12px 16px;
             color: #E2E8F0;
-            letter-spacing: -0.01em;
         }
-        .slide h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #CBD5E1;
-            text-align: center;
-        }
-        .slide p, .slide li {
-            font-size: 1.125rem;
-            line-height: 1.7;
-            margin-bottom: 16px;
-            color: #94A3B8;
-        }
-        .two-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            width: 100%;
-        }
-        .metric-card {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(30, 64, 175, 0.1) 100%);
-            padding: 32px;
-            border-radius: 16px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            text-align: center;
-            margin: 24px 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .metric-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1);
-            border-color: rgba(59, 130, 246, 0.4);
-        }
-        .metric-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: #3B82F6;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-        }
-        .metric-label {
-            font-size: 1rem;
-            color: #CBD5E1;
-            font-weight: 500;
-        }
-        .feature-grid, .team-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            margin: 40px 0;
-            width: 100%;
-            align-items: center;
-        }
-        .team-grid { grid-template-columns: repeat(3, 1fr); }
-        .feature-item, .team-member {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(30, 64, 175, 0.08) 100%);
-            padding: 32px;
-            border-radius: 16px;
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.05);
-            text-align: center;
-        }
-        .feature-item:hover, .team-member:hover {
-            transform: translateY(-4px);
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(30, 64, 175, 0.12) 100%);
-            border-color: rgba(59, 130, 246, 0.3);
-            box-shadow: 0 12px 16px -4px rgba(59, 130, 246, 0.1);
-        }
-        .chart-container {
-            width: 100%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(30, 64, 175, 0.05) 100%);
-            padding: 40px;
-            border-radius: 16px;
-            border: 1px solid rgba(59, 130, 246, 0.1);
-            margin: 24px 0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .bar-chart {
-            display: flex;
-            align-items: end;
-            height: 220px;
-            gap: 24px;
-            width: 100%;
-        }
-        .bar {
-            flex: 1;
-            background: linear-gradient(to top, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%);
-            border-radius: 8px 8px 0 0;
-            position: relative;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-        }
-        .bar:hover {
-            transform: scaleY(1.05);
-            box-shadow: 0 8px 12px -2px rgba(59, 130, 246, 0.4);
-        }
-        .bar-label {
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.875rem;
-            color: #CBD5E1;
-            font-weight: 500;
-            text-align: center;
-        }
+        .comparison-table th { background: rgba(59,130,246,0.1); }
+        .comparison-table td:nth-child(2) { color: #3B82F6; font-weight: 600; }
         .navigation {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 16px;
-            z-index: 1000;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 8px;
         }
         .nav-btn {
-            padding: 16px 32px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 50px;
-            color: #E2E8F0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 8px 12px; background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 20px; color: #E2E8F0; cursor: pointer;
+            transition: background .3s;
         }
-        .nav-btn:hover, .nav-btn.active {
-            background: rgba(59, 130, 246, 0.2);
-            border-color: rgba(59, 130, 246, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 12px -2px rgba(59, 130, 246, 0.2);
-        }
+        .nav-btn.active, .nav-btn:hover { background: rgba(59,130,246,0.2); }
         .slide-counter {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            color: #CBD5E1;
-        }
-        .subtitle { margin-bottom: 60px; }
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .slide { padding: 60px 40px; }
-            .slide h1 { font-size: 3rem; }
-            .slide h2 { font-size: 2.5rem; }
-            .two-column { grid-template-columns: 1fr; gap: 40px; align-items: center; }
-            .feature-grid, .team-grid { grid-template-columns: 1fr; gap: 24px; }
-            .timeline { flex-direction: column; gap: 16px; }
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(59,130,246,0.1);
+            padding: 8px 12px; border-radius: 20px;
+            color: #CBD5E1; font-weight: 600;
         }
         @media (max-width: 768px) {
-            .slide { padding: 40px 24px; }
+            .slide { padding: 40px 20px; }
             .slide h1 { font-size: 2.5rem; }
             .slide h2 { font-size: 2rem; }
-            .slide p { font-size: 1rem; }
-            .nav-btn { padding: 12px 24px; font-size: 0.9rem; }
+            .slide p, .slide .subtitle { font-size: 1rem; }
+            .nav-btn { padding: 6px 10px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
     <div class="presentation-container">
-        <!-- Slides as before... -->
-        <!-- Navigation and JS initialization as before -->
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Doct.Noko</h1>
+            <div class="subtitle">Revolutionary AI-Powered Healthcare Assistant</div>
+            <p>Transforming Healthcare through Artificial Intelligence</p>
+        </div>
+        <!-- Slide 2: Problem -->
+        <div class="slide">
+            <h2>The Healthcare Crisis</h2>
+            <p>73% of patients wait 2+ weeks for specialists</p>
+            <p>$4.1T annual US healthcare spending</p>
+            <p>250K deaths from medical errors yearly</p>
+            <p>124K physician shortage by 2034</p>
+        </div>
+        <!-- Slide 3: Solution -->
+        <div class="slide">
+            <h2>Our Solution: Doct.Noko</h2>
+            <ul>
+                <li>Advanced AI Diagnostics</li>
+                <li>Instant Consultations in under 60 seconds</li>
+                <li>95% Clinical Accuracy Rate</li>
+                <li>80% Cost Reduction for patients</li>
+            </ul>
+        </div>
+        <!-- Slide 4: Market Opportunity -->
+        <div class="slide">
+            <h2>Market Opportunity</h2>
+            <p>$45B global AI healthcare market (2024)</p>
+            <p>$148B projected by 2030</p>
+            <p>37% CAGR</p>
+            <p>Segments: Primary Care, Telemedicine, Emergency Triage, Specialist Referrals</p>
+        </div>
+        <!-- Slide 5: Product Demo -->
+        <div class="slide">
+            <h2>Product Demo</h2>
+            <p><strong>1.</strong> Symptom Input: NLP understands complex descriptions</p>
+            <p><strong>2.</strong> AI Analysis: Comprehensive medical knowledge</p>
+            <p><strong>3.</strong> Diagnostic Report: Personalized treatment plan</p>
+            <p><strong>4.</strong> Care Coordination: Specialist referrals and follow-up</p>
+        </div>
+        <!-- Slide 6: Business Model -->
+        <div class="slide">
+            <h2>Business Model</h2>
+            <p>Per consultation fee: $19</p>
+            <p>Enterprise license: $50K/month</p>
+            <p>Platform transaction fee: 15%</p>
+            <p>5-year ARR projections: $2.5M ➔ $250M</p>
+        </div>
+        <!-- Slide 7: Traction -->
+        <div class="slide">
+            <h2>Traction</h2>
+            <p>50K beta users in 6 months</p>
+            <p>4.8/5 average user satisfaction</p>
+            <p>85% monthly retention rate</p>
+            <p>Partnership: Mayo Clinic; $2M pre-orders; FDA breakthrough device</p>
+        </div>
+        <!-- Slide 8: Competition -->
+        <div class="slide">
+            <h2>Competitive Analysis</h2>
+            <table class="comparison-table">
+                <tr><th>Capability</th><th>Doct.Noko</th><th>Babylon</th><th>Ada</th><th>K Health</th></tr>
+                <tr><td>AI Accuracy</td><td>95%</td><td>78%</td><td>82%</td><td>71%</td></tr>
+                <tr><td>Response Time</td><td>&lt;1 min</td><td>15 min</td><td>5 min</td><td>10 min</td></tr>
+                <tr><td>24/7 Availability</td><td>✓</td><td>✓</td><td>✓</td><td>Limited</td></tr>
+            </table>
+        </div>
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn active">1</button>
+            <button class="nav-btn">2</button>
+            <button class="nav-btn">3</button>
+            <button class="nav-btn">4</button>
+            <button class="nav-btn">5</button>
+            <button class="nav-btn">6</button>
+            <button class="nav-btn">7</button>
+            <button class="nav-btn">8</button>
+        </div>
+        <div class="slide-counter"><span id="current-slide">1</span> / 8</div>
     </div>
     <script>
-        // Basic slide navigation logic
         const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-        let currentIndex = 0;
-        document.getElementById('total-slides').textContent = totalSlides;
-        document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-            btn.addEventListener('click', () => showSlide(idx));
-        });
-        function showSlide(idx) {
-            slides[currentIndex].classList.remove('active');
-            slides[idx].classList.add('active');
-            currentIndex = idx;
-            document.getElementById('current-slide').textContent = idx + 1;
-        }
-        // Initialize
-        showSlide(0);
+        const buttons = document.querySelectorAll('.nav-btn');
+        const display = document.getElementById('current-slide');
+        buttons.forEach((btn, i) => btn.addEventListener('click', () => {
+            slides.forEach(s => s.classList.remove('active'));
+            buttons.forEach(b => b.classList.remove('active'));
+            slides[i].classList.add('active');
+            btn.classList.add('active');
+            display.textContent = i + 1;
+        }));
     </script>
 </body>
 </html>
